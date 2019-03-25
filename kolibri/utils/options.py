@@ -23,14 +23,14 @@ def calculate_thread_pool():
     Calculations are done for servers with more than 2 Gb of RAM
     """
     MIN_POOL = 50
-    MAX_POOL = 100
+    MAX_POOL = 150
     pool = MIN_POOL
     if psutil:
         MIN_MEM = 2
-        MAX_MEM = 4
+        MAX_MEM = 6
         total_memory = psutil.virtual_memory().total / pow(2, 30)  # in Gb
         if MIN_MEM < total_memory < MAX_MEM:
-            pool = MIN_POOL + int((MAX_POOL - MIN_POOL) * float(total_memory - MIN_MEM) / (MAX_MEM - MIN_MEM))
+            pool = int(25 * total_memory)
         elif total_memory >= MAX_MEM:
             pool = MAX_POOL
     elif sys.platform.startswith("darwin"):  # Considering MacOS has at least 4 Gb of RAM
