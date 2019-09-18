@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from kolibri.core.webpack import hooks as webpack_hooks
 from kolibri.plugins import KolibriPluginBase
+from kolibri.plugins.hooks import register_hook
 from kolibri.plugins.user import hooks
 
 
@@ -17,10 +18,9 @@ class OpenIDConnect(KolibriPluginBase):
     #     return "^oidc_provider/"
 
 
+@register_hook
 class LoginItem(webpack_hooks.WebpackBundleHook):
-    # inline = True
-    unique_slug = "openid_login_item"
-    src_file = "assets/src/views/OIDCLogin.vue"
+    bundle_id = "openid_login_item"
 
 
 class LoginItemInclusionHook(hooks.UserSyncHook):

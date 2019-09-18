@@ -2,11 +2,11 @@ import os
 
 from kolibri.utils.conf import OPTIONS
 
-SESSION_COOKIE_NAME = "kolibri_client"
+# SESSION_COOKIE_NAME = "kolibri_client"
 INSTALLED_APPS = ["mozilla_django_oidc"]
-AUTHENTICATION_BACKENDS = [
-    "kolibri.plugins.oidc_client_plugin.auth.OIDCKolibriAuthenticationBackend"
-]
+# AUTHENTICATION_BACKENDS = [
+#     "kolibri.plugins.oidc_client_plugin.auth.OIDCKolibriAuthenticationBackend"
+# ]
 OIDC_URL = OPTIONS["OIDCClient"]["PROVIDER_URL"]
 OIDC_RP_CLIENT_ID = os.environ.get("CLIENT_ID", "kolibri.app")
 OIDC_RP_CLIENT_SECRET = os.environ.get("CLIENT_SECRET", "kolibri.app")
