@@ -13,15 +13,12 @@ class OpenIDConnect(KolibriPluginBase):
     django_settings = "settings"
     kolibri_options = "options"
 
-    # @property
-    # def url_slug(self):
-    #     return "^oidc_provider/"
-
 
 @register_hook
 class LoginItem(webpack_hooks.WebpackBundleHook):
     bundle_id = "openid_login_item"
 
 
+@register_hook
 class LoginItemInclusionHook(hooks.UserSyncHook):
     bundle_class = LoginItem

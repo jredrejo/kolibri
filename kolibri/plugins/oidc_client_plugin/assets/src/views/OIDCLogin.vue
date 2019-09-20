@@ -1,7 +1,7 @@
 <template>
 
   <a
-    href="/openidconnect/api/authenticate/"
+    href="/oidcauthenticate/"
     class="button secondary raised"
   >
     <file-svg
