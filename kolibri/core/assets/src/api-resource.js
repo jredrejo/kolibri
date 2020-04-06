@@ -917,7 +917,8 @@ export class Resource {
   }
 
   /**
-   * Call a POST on a custom list endpoint
+   * Call a POST on a custom list endpoint forcing the use of
+   * 'multipart/form-data' as Mimetype instead of the common 'application/json'
    * @param  {string} listName The name given to the list endpoint
    * @param  {Object} args     The body of the request
    * @return {Promise}         Promise that resolves with the request
