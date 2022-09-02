@@ -8132,17 +8132,17 @@ kolibri-constants@0.1.41:
     purecss "^0.6.2"
     tippy.js "^4.2.1"
 
-launch-editor-middleware@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/launch-editor-middleware/-/launch-editor-middleware-2.5.0.tgz#49d7fedaa06d939a3a780cdf7af959b789934700"
-  integrity sha512-kv9MMO81pbYjznk9j/DBu0uBGxIpT6uYhGajq6fxdGEPb+DCRBoS96jGkhe3MJumdY3zZFkuS8CFPTZI9DaBNw==
+launch-editor-middleware@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/launch-editor-middleware/-/launch-editor-middleware-2.6.0.tgz#2ba4fe4b695d7fe3d44dee86b6d46d57b8332dfd"
+  integrity sha512-K2yxgljj5TdCeRN1lBtO3/J26+AIDDDw+04y6VAiZbWcTdBwsYN6RrZBnW5DN/QiSIdKNjKdATLUUluWWFYTIA==
   dependencies:
-    launch-editor "^2.5.0"
+    launch-editor "^2.6.0"
 
-launch-editor@^2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/launch-editor/-/launch-editor-2.5.0.tgz#d646fcc15ed8589b998950cad1102827d9dcadce"
-  integrity sha512-coRiIMBJ3JF7yX8nZE4Fr+xxUy+3WTRsDSwIzHghU28gjXwkAWsvac3BpZrL/jHtbiqQ4TiRAyTJmsgErNk1jQ==
+launch-editor@^2.6.0:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/launch-editor/-/launch-editor-2.6.0.tgz#4c0c1a6ac126c572bd9ff9a30da1d2cae66defd7"
+  integrity sha512-JpDCcQnyAAzZZaZ7vEiSqL690w7dAEyLao+KC96zBplnYbJS7TYNjvM3M7y3dGz+v7aIsJk3hllWuc0kWAjyRQ==
   dependencies:
     picocolors "^1.0.0"
     shell-quote "^1.7.3"
