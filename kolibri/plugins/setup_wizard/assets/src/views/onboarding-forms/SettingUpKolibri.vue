@@ -205,7 +205,7 @@
               this.wizardContext('isImportedFacility'),
             );
 
-            Lockr.rm('savedState'); // Clear out saved state machine
+          Lockr.rm('savedState_wizard'); // Clear out saved state machine
             redirectBrowser();
           })
           .catch(e => {

@@ -23,6 +23,7 @@
   import { computed } from 'kolibri.lib.vueCompositionApi';
   import { interpret } from 'xstate';
   import useUser from 'kolibri.coreVue.composables.useUser';
+  import useSyncStateRouter from 'kolibri.coreVue.composables.useSyncStateRouter';
   import { changeFacilityMachine } from '../../machines/changeFacilityMachine';
 
   export default {
@@ -41,7 +42,6 @@
     data() {
       return {
         service: interpret(changeFacilityMachine),
-        previousMachineStateName: '',
         state: changeFacilityMachine.initialState,
         currentRoute: this.$router.currentRoute.name,
         appBarHeight: 0,
@@ -71,33 +71,15 @@
       next();
     },
     created() {
-      this.service.start();
-      this.service.onTransition(state => {
-        if (state.value === 'error') {
-          this.onMachineError(state);
-          return;
-        }
-        const stateID = Object.keys(state.meta)[0];
-        if (state.meta[stateID] !== undefined) {
-          const newRoute = state.meta[stateID].route;
-          if (newRoute != this.$router.currentRoute.name) {
-            if ('path' in state.meta[stateID]) {
-              this.internalNavigation = true;
-              this.$router.push(
-                { name: newRoute, path: state.meta[stateID].path },
-                function () {
-                  this.internalNavigation = false;
-                }.bind(this),
-              );
-            } else this.$router.push(newRoute);
-          }
-          this.currentRoute = newRoute;
-        }
-        this.state = state;
-      });
+      // initialize XState machine actor
+      const initialEvent = { type: 'CONTINUE'}
+      const { initializeState, cleanupState } = useSyncStateRouter(this, this.service, initialEvent);
+      this.initializeState = initializeState;
+      this.cleanupState = cleanupState;
+      this.initializeState();
     },
     destroyed() {
-      this.service.stop();
+      this.cleanupState();
     },
     mounted() {
       this.$nextTick(() => {
@@ -120,16 +102,6 @@
           },
         });
       }
-    },
-    methods: {
-      onMachineError(machineState) {
-        this.$store.commit(
-          'CORE_SET_ERROR',
-          `An error occured in the '${this.previousMachineStateName}' state of the change facility machine`,
-        );
-        this.service.send('RESET');
-        this.previousMachineStateName = machineState.value;
-      },
     },
   };
 

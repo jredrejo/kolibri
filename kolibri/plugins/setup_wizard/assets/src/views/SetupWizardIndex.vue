@@ -29,7 +29,6 @@
   import useKResponsiveWindow from 'kolibri-design-system/lib/composables/useKResponsiveWindow';
   import useSyncStateRouter from 'kolibri.coreVue.composables.useSyncStateRouter';
   import { checkCapability } from 'kolibri.utils.appCapabilities';
-  import Lockr from 'lockr';
   import { wizardMachine } from '../machines/wizardMachine';
   import LoadingPage from './submission-states/LoadingPage';
   import ErrorPage from './submission-states/ErrorPage';
@@ -64,29 +63,14 @@
       ...mapState(['loading', 'error']),
     },
     created() {
-      /*
-       * The interpreted wizardMachine is an object that lets you move between states.
-       * It's current state value has no side effects or dependencies - so we can store it
-       * as data - then when we initialize the machine each time, we can pass it that data
-       * to resume the machine as we had saved it.
-       *
-       * A key part of this is that we synchronize our router with the machine on every
-       * transition as each state entry has a `meta` property with a route name that maps
-       * to a route definition which maps to a specific component.
-       *
-       * So - when we load the initial state, the user resumes where they left off if they
-       * are on the same browser (although we could persist it to the backend if needed too).
-       *
-       * NOTE: There may be times when we want to reset to the beginning, unsetting the value
-       * using Lockr and redirecting to '/' should do the trick.
-       */
+      // initialize XState machine actor
       const initialEvent = { type: 'CONTINUE', value: checkCapability('get_os_user') }
       const { initializeState, cleanupState } = useSyncStateRouter(this, this.service, initialEvent);
       this.initializeState = initializeState;
       this.cleanupState = cleanupState;
       this.initializeState();
     },
-    destroy() {
+    destroyed() {
       this.cleanupState();
     },
     $trs: {
