@@ -92,6 +92,7 @@ import useMinimumKolibriVersion from '../composables/useMinimumKolibriVersion';
 import useUserSyncStatus from '../composables/useUserSyncStatus';
 import useUser from '../composables/useUser';
 import useSnackbar from '../composables/useSnackbar';
+import useSyncStateRouter from '../composables/useSyncStateRouter';
 import useTotalProgress from '../composables/useTotalProgress';
 import { registerNavItem } from '../composables/useNav';
 import useNow from '../composables/useNow';
@@ -205,6 +206,7 @@ export default {
       useUser,
       useUserSyncStatus,
       useSnackbar,
+      useSyncStateRouter,
       useTotalProgress,
     },
   },

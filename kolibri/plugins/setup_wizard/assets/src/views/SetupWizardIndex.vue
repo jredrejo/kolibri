@@ -27,6 +27,7 @@
   import { mapState } from 'vuex';
   import commonCoreStrings from 'kolibri.coreVue.mixins.commonCoreStrings';
   import useKResponsiveWindow from 'kolibri-design-system/lib/composables/useKResponsiveWindow';
+  import useSyncStateRouter from 'kolibri.coreVue.composables.useSyncStateRouter';
   import { checkCapability } from 'kolibri.utils.appCapabilities';
   import Lockr from 'lockr';
   import { wizardMachine } from '../machines/wizardMachine';
@@ -79,54 +80,15 @@
        * NOTE: There may be times when we want to reset to the beginning, unsetting the value
        * using Lockr and redirecting to '/' should do the trick.
        */
-
-      const synchronizeRouteAndMachine = state => {
-        if (!state) return;
-
-        const { meta } = state;
-
-        // Dump out of here if there is nothing to resume from
-        if (!Object.keys(meta).length) {
-          this.$router.replace('/');
-          return;
-        }
-
-        const route = meta[Object.keys(meta)[0]].route;
-        if (route) {
-          // Avoid redundant navigation
-          if (this.$route.name !== route.name) {
-            this.$router.replace(route);
-          }
-        } else {
-          this.$router.replace('/');
-        }
-      };
-
-      // Note the second arg to Lockr.get is a fallback if the first arg is not found
-      const savedState = Lockr.get('savedState', 'initializeContext');
-
-      // Either the string 'initializeContext' or a valid state object returned from Lockr
-
-      if (savedState !== 'initializeContext') {
-        // Update the route if there is a saved state
-        synchronizeRouteAndMachine(savedState);
-      } else {
-        // Or set the app context state on the machine and proceed to the first state
-        this.service.send({ type: 'CONTINUE', value: checkCapability('get_os_user') });
-      }
-
-      this.service.start(savedState);
-
-      this.service.onTransition(state => {
-        synchronizeRouteAndMachine(state);
-        Lockr.set('savedState', this.service._state);
-      });
+      const initialEvent = { type: 'CONTINUE', value: checkCapability('get_os_user') }
+      const { initializeState, cleanupState } = useSyncStateRouter(this, this.service, initialEvent);
+      this.initializeState = initializeState;
+      this.cleanupState = cleanupState;
+      this.initializeState();
     },
-    destroyed() {
-      Lockr.set('savedState', null);
-      this.service.stop();
+    destroy() {
+      this.cleanupState();
     },
-
     $trs: {
       documentTitle: {
         message: 'Setup Wizard',
